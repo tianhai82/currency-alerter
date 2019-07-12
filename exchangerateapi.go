@@ -35,8 +35,7 @@ func retrieveExchangeRates() (err error) {
 		return
 	}
 	histories := toCurrencyHistories(target)
-	b, _ := json.Marshal(histories)
-	fmt.Println(string(b))
+	monitorRates(histories)
 	return
 }
 func toCurrencyHistories(rates ExchangeRatesResponse) (histories []CurrencyHistory) {
