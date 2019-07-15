@@ -1,8 +1,9 @@
 package main
 
 import (
-	"encoding/json"
+	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,24 +15,40 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/analyze", analyze)
-	r.GET("/setWebhook", setWebhook)
+	r.GET("/_ah/stop", shutdown)
+	// r.GET("/setWebhook", setWebhook)
 	r.POST("/telegramWebhook", webhookCallback)
 	r.Run()
 }
+func shutdown(_ *gin.Context) {
 
+}
 func webhookCallback(c *gin.Context) {
-	var telegramMsg map[string]interface{}
-	err := c.BindJSON(&telegramMsg)
+	var telegramUpdate Update
+	err := c.BindJSON(&telegramUpdate)
 	if err != nil {
 		fmt.Println(err)
+		c.AbortWithError(http.StatusBadRequest, errors.New("Invalid telegram message"))
+		return
 	}
-	b, _ := json.Marshal(telegramMsg)
-	fmt.Println(string(b))
+	if telegramUpdate.Message.IsCommand() {
+		err = handleUpdate(telegramUpdate)
+		if err != nil {
+			fmt.Println(err)
+			c.AbortWithError(http.StatusBadRequest, errors.New("Invalid telegram message"))
+			return
+		}
+	}
 }
 
-func analyze(_ *gin.Context) {
-	retrieveExchangeRates()
+func analyze(c *gin.Context) {
+	err := retrieveExchangeRates()
+	if err != nil {
+		fmt.Println(err)
+		c.AbortWithError(http.StatusBadRequest, errors.New("fail to retrieve exchange rates"))
+	}
 }
-func setWebhook(_ *gin.Context) {
-	setTelegramWebhook()
-}
+
+// func setWebhook(_ *gin.Context) {
+// 	setTelegramWebhook()
+// }

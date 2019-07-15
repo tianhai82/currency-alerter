@@ -12,3 +12,13 @@ type CurrencyHistory struct {
 	Days         []string
 	Rates        map[string]float64
 }
+type Subscription struct {
+	UserID       int
+	TopCurrency  string
+	BaseCurrency string
+}
+type Msg struct {
+	ChatID       int64  `json:"chat_id"`
+	Text         string `json:"text"`
+	ReplyToMsgID int    `json:"reply_to_message_id"`
+}
