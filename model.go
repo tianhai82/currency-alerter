@@ -9,9 +9,6 @@ type ExchangeRatesResponse struct {
 type CurrencyHistory struct {
 	TopCurrency  string
 	BaseCurrency string
-	Rates        []DayRate
-}
-type DayRate struct {
-	Day  string
-	Rate float64
+	Days         []string
+	Rates        map[string]float64
 }
