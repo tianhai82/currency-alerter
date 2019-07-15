@@ -24,8 +24,13 @@ func saveSubscription(userID int, topCurrency string, baseCurrency string) error
 	if client == nil {
 		return errors.New("firestore client not initialised")
 	}
-	ctx := context.Background()
 
+	// TODO
+	// convert currency to uppercase.
+	// do not save duplicates
+	//
+
+	ctx := context.Background()
 	_, _, err := client.Collection("subscription").Add(ctx, Subscription{
 		UserID:       userID,
 		TopCurrency:  topCurrency,
