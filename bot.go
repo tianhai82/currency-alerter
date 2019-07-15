@@ -62,7 +62,7 @@ func subscribe(msg *Message) error {
 	sendMessage(Msg{
 		ChatID:       msg.Chat.ID,
 		ReplyToMsgID: msg.MessageID,
-		Text:         fmt.Sprintf("Subscribed to %s/%s successfully!", strings.ToUpper(currencies[0]), strings.ToUpper(currencies[0])),
+		Text:         fmt.Sprintf("Subscribed to %s/%s successfully!", strings.ToUpper(currencies[0]), strings.ToUpper(currencies[1])),
 	})
 	return nil
 }
