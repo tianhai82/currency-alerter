@@ -24,6 +24,7 @@ func handleUpdate(update Update) error {
 		return errors.New("Bot only handles command")
 	}
 	cmd := update.Message.Command()
+	fmt.Println(cmd)
 	switch cmd {
 	case "sub":
 		fmt.Println("sub command received")
