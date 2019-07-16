@@ -28,14 +28,14 @@ func webhookCallback(c *gin.Context) {
 	err := c.BindJSON(&telegramUpdate)
 	if err != nil {
 		fmt.Println(err)
-		c.AbortWithError(http.StatusBadRequest, errors.New("Invalid telegram message"))
+		//c.AbortWithError(http.StatusBadRequest, errors.New("Invalid telegram message"))
 		return
 	}
 	if telegramUpdate.Message.IsCommand() {
 		err = handleUpdate(telegramUpdate)
 		if err != nil {
 			fmt.Println(err)
-			c.AbortWithError(http.StatusBadRequest, errors.New("Fail to handle telegram message"))
+			//c.AbortWithError(http.StatusBadRequest, errors.New("Fail to handle telegram message"))
 			return
 		}
 	}
