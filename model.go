@@ -1,6 +1,6 @@
 package main
 
-const AvailableCurrencies = []string{
+var AvailableCurrencies = []string{
 	"CAD",
 	"HKD",
 	"ISK",
