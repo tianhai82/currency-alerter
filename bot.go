@@ -26,6 +26,7 @@ func handleUpdate(update Update) error {
 	cmd := update.Message.Command()
 	switch cmd {
 	case "sub":
+		fmt.Println("sub command received")
 		return subscribe(update.Message)
 	default:
 		return errors.New("Invalid command")
@@ -72,7 +73,7 @@ func subscribe(msg *Message) error {
 
 func checkCurrenciesArgs(currencies []string) error {
 	if len(currencies) != 2 {
-		return errors.New("Unsuccessul. Please provide Currency_Code_1/Currency_Code_2")
+		return errors.New("Unsuccessful. Please provide Currency_Code_1/Currency_Code_2")
 	}
 
 	if !contains(AvailableCurrencies, currencies[0]) || !contains(AvailableCurrencies, currencies[1]) {
