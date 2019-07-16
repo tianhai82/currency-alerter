@@ -29,6 +29,12 @@ func handleUpdate(update Update) error {
 	case "sub":
 		fmt.Println("sub command received")
 		return subscribe(update.Message)
+	case "start":
+		sendMessage(Msg{
+			ChatID: update.Message.Chat.ID,
+			Text:   "Subscribe to currency pair by entering the '/sub' command",
+		})
+		return nil
 	default:
 		return errors.New("Invalid command")
 	}
