@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"sort"
@@ -25,8 +24,6 @@ func retrieveExchangeRates() (err error) {
 		return
 	}
 	histories := toCurrencyHistories(target)
-	b, _ := json.Marshal(histories)
-	fmt.Println(string(b))
 	monitorRates(histories)
 	return
 }

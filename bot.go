@@ -9,12 +9,12 @@ import (
 
 const botToken = "801803446:AAFgJE90u7rYVe4tHJ-fEM_tNau3pWXUFBg"
 
-const botUrl = "https://api.telegram.org/bot"
+const botURL = "https://api.telegram.org/bot"
 
 const webhookURL = "https://currency-alerter.appspot.com/telegramWebhook"
 
 type webhook struct {
-	Url            string   `json:"url"`
+	URL            string   `json:"url"`
 	MaxConnections uint     `json:"max_connections"`
 	AllowedUpdates []string `json:"allowed_updates"`
 }
@@ -33,7 +33,7 @@ func handleUpdate(update Update) error {
 }
 
 func sendMessage(msg Msg) error {
-	url := fmt.Sprintf("%s%s/sendMessage", botUrl, botToken)
+	url := fmt.Sprintf("%s%s/sendMessage", botURL, botToken)
 	var message Message
 	return makePostRequest(url, msg, &message)
 }
@@ -42,13 +42,16 @@ func subscribe(msg *Message) error {
 	userID := msg.From.ID
 	args := msg.CommandArguments()
 	currencies := strings.Split(args, "/")
-	if len(currencies) != 2 {
+	for i, s := range currencies {
+		currencies[i] = strings.ToUpper(s)
+	}
+	if err := checkCurrenciesArgs(currencies); err != nil {
 		sendMessage(Msg{
 			ChatID:       msg.Chat.ID,
 			ReplyToMsgID: msg.MessageID,
-			Text:         "Unsuccessul. Please provide Currency_Code_1/Currency_Code_2",
+			Text:         err.Error(),
 		})
-		return errors.New("CUR_CODE_1/CUR_CODE_2")
+		return err
 	}
 	err := saveSubscription(userID, currencies[0], currencies[1])
 	if err != nil {
@@ -64,6 +67,21 @@ func subscribe(msg *Message) error {
 		ReplyToMsgID: msg.MessageID,
 		Text:         fmt.Sprintf("Subscribed to %s/%s successfully!", strings.ToUpper(currencies[0]), strings.ToUpper(currencies[1])),
 	})
+	return nil
+}
+
+func checkCurrenciesArgs(currencies []string) error {
+	if len(currencies) != 2 {
+		return errors.New("Unsuccessul. Please provide Currency_Code_1/Currency_Code_2")
+	}
+
+	if !contains(AvailableCurrencies, currencies[0]) || !contains(AvailableCurrencies, currencies[1]) {
+		return errors.Errorf("Available currencies: %s", strings.Join(AvailableCurrencies, ", "))
+	}
+
+	if currencies[0] == currencies[1] {
+		return errors.New("Currency 1 cannot be the same as currency 2")
+	}
 	return nil
 }
 
