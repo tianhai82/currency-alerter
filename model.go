@@ -1,6 +1,7 @@
 package main
 
 var AvailableCurrencies = []string{
+	"EUR",
 	"CAD",
 	"HKD",
 	"ISK",
