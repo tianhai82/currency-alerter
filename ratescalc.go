@@ -18,7 +18,7 @@ func monitorRates(histories map[string]CurrencyHistory) error {
 			fmt.Println(err)
 			continue
 		}
-		alert, err := getAlert(curHist)
+		alert, err := getAlert(curHist, sub.UserID)
 		if err == nil {
 			sendAlert(alert)
 		} else {
@@ -29,7 +29,7 @@ func monitorRates(histories map[string]CurrencyHistory) error {
 
 }
 
-func getAlert(curHist CurrencyHistory) (Alert, error) {
+func getAlert(curHist CurrencyHistory, userID int) (Alert, error) {
 	// calculate std dev, max dev and (max + std) / 2
 	// if current deviation with mean is more than (max+std)/2, send alert to subscribed users
 	maxDev := 0.0
@@ -54,6 +54,11 @@ func getAlert(curHist CurrencyHistory) (Alert, error) {
 	if currentDev >= limit {
 		return Alert{}, nil
 	}
+	text := fmt.Sprintf("Std Dev: %.2f. Max Dev: %.2f. Current Dev: %.2f. Current rate %s/%s: %.4f", stdDev, maxDev, currentDev, curHist.TopCurrency, curHist.BaseCurrency, curHist.Rates[curHist.Days[0]])
+	sendMessage(Msg{
+		ChatID: int64(userID),
+		Text:   text,
+	})
 	return Alert{}, errors.New("current deviation within limit")
 }
 func sendAlert(alert Alert) {
