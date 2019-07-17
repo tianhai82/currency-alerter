@@ -50,7 +50,7 @@ func retrieveAllSubscriptions() ([]Subscription, error) {
 	return subs, nil
 }
 
-func saveSubscription(userID int, topCurrency string, baseCurrency string) error {
+func saveSubscription(userID int64, topCurrency string, baseCurrency string) error {
 	if client == nil {
 		return errors.New("firestore client not initialised")
 	}
@@ -58,7 +58,7 @@ func saveSubscription(userID int, topCurrency string, baseCurrency string) error
 	ctx := context.Background()
 	key := fmt.Sprintf("%d-%s-%s", userID, topCurrency, baseCurrency)
 	_, err := client.Collection("subscription").Doc(key).Set(ctx, Subscription{
-		UserID:       userID,
+		ChatID:       userID,
 		TopCurrency:  topCurrency,
 		BaseCurrency: baseCurrency,
 	})

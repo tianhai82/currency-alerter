@@ -47,7 +47,6 @@ func sendMessage(msg Msg) error {
 }
 
 func subscribe(msg *Message) error {
-	userID := msg.From.ID
 	args := msg.CommandArguments()
 	currencies := strings.Split(args, "/")
 	for i, s := range currencies {
@@ -61,7 +60,7 @@ func subscribe(msg *Message) error {
 		})
 		return err
 	}
-	err := saveSubscription(userID, currencies[0], currencies[1])
+	err := saveSubscription(msg.Chat.ID, currencies[0], currencies[1])
 	if err != nil {
 		sendMessage(Msg{
 			ChatID:       msg.Chat.ID,

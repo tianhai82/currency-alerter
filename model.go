@@ -49,7 +49,7 @@ type CurrencyHistory struct {
 	Rates        map[string]float64
 }
 type Subscription struct {
-	UserID       int    `json:"userID"`
+	ChatID       int64  `json:"chatID"`
 	TopCurrency  string `json:"topCurrency"`
 	BaseCurrency string `json:"baseCurrency"`
 }
