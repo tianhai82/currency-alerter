@@ -55,7 +55,7 @@ func getAlert(curHist CurrencyHistory, userID int64) (Alert, error) {
 		return Alert{}, nil
 	}
 	currentRate := curHist.Rates[curHist.Days[0]]
-	text := fmt.Sprintf("Std Dev: %.6f. Max Dev: %.6f. Current Dev: %.6f. Current rate %s/%s: %.5f",
+	text := fmt.Sprintf("Std Dev: %.6f%%. Max Dev: %.6f%%. Current Dev: %.6f%%. Current rate %s/%s: %.5f",
 		(stdDev/currentRate)*100, (maxDev/currentRate)*100, (currentDev/currentRate)*100,
 		curHist.TopCurrency, curHist.BaseCurrency, currentRate)
 	sendMessage(Msg{
