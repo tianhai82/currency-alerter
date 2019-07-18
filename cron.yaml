@@ -1,5 +1,5 @@
 cron:
   - description: "Analyze rates and send alerts to subscribers"
     url: /analyze
-    schedule: every day 14:21
+    schedule: every day 15:10
     timezone: Asia/Singapore
