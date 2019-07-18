@@ -24,8 +24,8 @@ func retrieveExchangeRates() (err error) {
 		return
 	}
 	histories := toCurrencyHistories(target)
-	fmt.Println("done getting exchange rates", time.Now())
-	monitorRates(histories)
+	err = monitorRates(histories)
+	fmt.Println("end analyze", time.Now())
 	return
 }
 func toCurrencyHistories(rates ExchangeRatesResponse) (currencyHistories map[string]CurrencyHistory) {

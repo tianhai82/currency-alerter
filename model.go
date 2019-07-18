@@ -1,5 +1,9 @@
 package main
 
+import (
+	"time"
+)
+
 var AvailableCurrencies = []string{
 	"EUR",
 	"CAD",
@@ -57,6 +61,21 @@ type Msg struct {
 	ChatID       int64  `json:"chat_id"`
 	Text         string `json:"text"`
 	ReplyToMsgID int    `json:"reply_to_message_id"`
+	ParseMode    string `json:"parse_mode"`
 }
 type Alert struct {
+	Subscription     `json:",inline"`
+	CurrentDevPercen float64 `json:"currentDevPercen"`
+	StdDevPercen     float64 `json:"stdDevPercen"`
+	MaxDevPercen     float64 `json:"maxDevPercen"`
+	LimitDevPercen   float64 `json:"limitDevPercen"`
+	CurrentRate      float64 `json:"currentRate"`
+	MeanRate         float64 `json:"meanRate"`
+}
+type Order struct {
+	BuyOrSell    string    `json:"buyOrSell"`
+	Price        float64   `json:"price"`
+	TopCurrency  string    `json:"topCurrency"`
+	BaseCurrency string    `json:"baseCurrency"`
+	DateTime     time.Time `json:"dateTime"`
 }

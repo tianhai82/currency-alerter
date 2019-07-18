@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/pkg/errors"
@@ -61,6 +62,30 @@ func saveSubscription(userID int64, topCurrency string, baseCurrency string) err
 		ChatID:       userID,
 		TopCurrency:  topCurrency,
 		BaseCurrency: baseCurrency,
+	})
+	return err
+}
+
+func saveOrder(alert Alert) error {
+	if client == nil {
+		return errors.New("firestore client not initialised")
+	}
+
+	ctx := context.Background()
+	rec := ""
+	if alert.CurrentRate > 0 {
+		rec = "SELL"
+	} else {
+		rec = "BUY"
+	}
+	date := time.Now()
+
+	_, _, err := client.Collection("order").Add(ctx, Order{
+		BuyOrSell:    rec,
+		Price:        alert.CurrentRate,
+		TopCurrency:  alert.TopCurrency,
+		BaseCurrency: alert.BaseCurrency,
+		DateTime:     date,
 	})
 	return err
 }
