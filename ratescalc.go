@@ -80,7 +80,7 @@ func getAlert(curHist CurrencyHistory, userID int64) Alert {
 }
 func sendAlert(alert Alert) {
 	rec := ""
-	if alert.CurrentRate > 0 {
+	if alert.CurrentDevPercen < 0 {
 		rec = "SELL"
 	} else {
 		rec = "BUY"

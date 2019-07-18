@@ -73,7 +73,7 @@ func saveOrder(alert Alert) error {
 
 	ctx := context.Background()
 	rec := ""
-	if alert.CurrentRate > 0 {
+	if alert.CurrentDevPercen < 0 {
 		rec = "SELL"
 	} else {
 		rec = "BUY"
