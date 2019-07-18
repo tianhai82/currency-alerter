@@ -51,11 +51,16 @@ func getAlert(curHist CurrencyHistory, userID int64) (Alert, error) {
 	variance := varianceSum / float64(len(curHist.Days))
 	stdDev := math.Sqrt(variance)
 	limit := (maxDev + stdDev) / 2
-	currentDev := math.Abs(curHist.Rates[curHist.Days[0]] - mean)
+	currentRate := curHist.Rates[curHist.Days[0]]
+	currentDev := math.Abs(currentRate - mean)
 	if currentDev >= limit {
+		sendMessage(Msg{
+			ChatID: int64(userID),
+			Text:   fmt.Sprintf("time to buy/sell %s/%s", curHist.TopCurrency, curHist.BaseCurrency),
+		})
 		return Alert{}, nil
 	}
-	currentRate := curHist.Rates[curHist.Days[0]]
+
 	text := fmt.Sprintf("Std Dev: %.6f%%. Max Dev: %.6f%%. Current Dev: %.6f%%. Current rate %s/%s: %.5f",
 		(stdDev/currentRate)*100, (maxDev/currentRate)*100, (currentDev/currentRate)*100,
 		curHist.TopCurrency, curHist.BaseCurrency, currentRate)
@@ -63,7 +68,7 @@ func getAlert(curHist CurrencyHistory, userID int64) (Alert, error) {
 		ChatID: int64(userID),
 		Text:   text,
 	})
-	return Alert{}, errors.New("current deviation within limit")
+	return Alert{}, errors.Errorf("%s/%s: current deviation %.6f within limit %.6f", curHist.TopCurrency, curHist.BaseCurrency, currentDev, limit)
 }
 func sendAlert(alert Alert) {
 
