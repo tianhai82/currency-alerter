@@ -60,6 +60,7 @@ func getAlert(curHist CurrencyHistory, userID int64) Alert {
 	currentRate := curHist.Rates[curHist.Days[0]]
 	currentDev := currentRate - mean
 	if math.Abs(currentDev) >= limit {
+		fmt.Printf("sending alert for %s/%s\n", curHist.TopCurrency, curHist.BaseCurrency)
 		return Alert{
 			Subscription: Subscription{
 				ChatID:       userID,
@@ -74,6 +75,7 @@ func getAlert(curHist CurrencyHistory, userID int64) Alert {
 			LimitDevPercen:   limit / currentRate * 100,
 		}
 	}
+	fmt.Printf("no alert for %s/%s.\n", curHist.TopCurrency, curHist.BaseCurrency)
 	return Alert{}
 }
 func sendAlert(alert Alert) {
