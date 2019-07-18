@@ -86,14 +86,14 @@ func sendAlert(alert Alert) {
 		rec = "BUY"
 	}
 	text := fmt.Sprintf(`Alert for *%s/%s*
---------
-Current Rate|*%.5f*
-Moving Avg Rate|*%.5f*
-Standard Dev|*%.6f%%*
-Max Dev|*%.6f%%*
-Limit Dev|*%.6f%%*
-Current Dev|*%.6f%%*
-
+------------------------
+Current Rate:			*%.5f*
+Moving Avg Rate:	*%.5f*
+Standard Dev:			*%.6f%%*
+Max Dev:					*%.6f%%*
+Limit Dev:				*%.6f%%*
+Current Dev:			*%.6f%%*
+------------------------
 Recommendation: *%s*`,
 		alert.TopCurrency, alert.BaseCurrency,
 		alert.CurrentRate, alert.MeanRate,
