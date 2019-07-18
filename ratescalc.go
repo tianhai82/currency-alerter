@@ -13,6 +13,7 @@ func monitorRates(histories map[string]CurrencyHistory) error {
 		return err
 	}
 	for _, sub := range subscriptions {
+		fmt.Printf("handling %s/%s\n", sub.TopCurrency, sub.BaseCurrency)
 		curHist, err := getPairRates(sub, histories)
 		if err != nil {
 			fmt.Println(err)

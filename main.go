@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,6 +43,7 @@ func webhookCallback(c *gin.Context) {
 }
 
 func analyze(c *gin.Context) {
+	fmt.Println("start analyze", time.Now())
 	err := retrieveExchangeRates()
 	if err != nil {
 		fmt.Println(err)

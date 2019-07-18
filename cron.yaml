@@ -1,0 +1,5 @@
+cron:
+  - description: "Analyze rates and send alerts to subscribers"
+    url: /analyze
+    schedule: every day 12:30
+    timezone: Asia/Singapore
